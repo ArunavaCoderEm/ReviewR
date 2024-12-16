@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,7 @@ export function Navbar() {
   const [active, setActive] = useState<string>("home");
 
   return (
-    <nav className="flex items-center justify-between p-4 bg-background shadow-md dark:bg-background-dark">
+    <nav className="flex items-center justify-between p-4 bg-background shadow-md dark:bg-background-dark relative">
       <Link
         onClick={() => {
           setActive("Home");
@@ -68,8 +68,8 @@ export function Navbar() {
                 href={item.href}
                 className={`text-sm ${
                   active === item.title
-                    ? "bg-gradient-to-b text-white from-teal-600 to-teal-700 dark:bg-gradient-to-b dark:from-teal-800 dark:to-teal-900"
-                    : "hover:text-teal-500 dark:hover:text-teal-400"
+                    ? "bg-gradient-to-b text-white from-black to-black/80 dark:bg-gradient-to-b dark:from-white dark:to-gray-300 dark:text-black"
+                    : "hover:text-teal-600 dark:hover:text-teal-400"
                 } px-3 py-2 rounded-lg font-[500] transition-all duration-200`}
               >
                 {item.title}
@@ -79,44 +79,55 @@ export function Navbar() {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Collapsible className="md:hidden" open={isOpen} onOpenChange={setIsOpen}>
-        <CollapsibleTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            aria-label="Toggle menu"
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <Menu className="h-6 w-6 text-teal-500 dark:text-teal-400" />
-          </Button>
-        </CollapsibleTrigger>
-
-        <CollapsibleContent className="bg-background dark:bg-background-dark p-4 w-full">
-          <nav className="flex flex-col gap-4 items-center">
-            {menuItems.map((item, index) => (
-              <NavigationMenuItem key={index}>
-                <Link
-                  onClick={() => {
-                    setActive(item.title);
-                    setIsOpen(false);
-                  }}
-                  href={item.href}
-                  className={`block text-sm text-center w-full ${
-                    active === item.title
-                      ? "bg-gradient-to-b text-white from-teal-600 to-teal-700 dark:bg-gradient-to-b dark:from-teal-800 dark:to-teal-900"
-                      : "hover:text-teal-500 dark:hover:text-teal-400"
-                  } px-3 py-2 rounded-lg font-[500] transition-all duration-200`}
-                >
-                  {item.title}
-                </Link>
-              </NavigationMenuItem>
-            ))}
-          </nav>
-        </CollapsibleContent>
-      </Collapsible>
-
       <div className="flex gap-2 items-center">
+        <Collapsible
+          className="md:hidden"
+          open={isOpen}
+          onOpenChange={setIsOpen}
+        >
+          <CollapsibleTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Toggle menu"
+              className="md:hidden"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {!isOpen ? (
+                <Menu className="h-6 w-6 text-teal-500 dark:text-teal-400" />
+              ) : (
+                <X className="h-6 w-6 text-red-600 dark:text-red-500" />
+              )}
+            </Button>
+          </CollapsibleTrigger>
+
+          <CollapsibleContent
+            className={`absolute list-none top-full left-0 w-full dark:bg-background-dark p-4 transition-all ${
+              isOpen ? "block" : "hidden"
+            }`}
+          >
+            <nav className="flex flex-col list-none gap-4 items-center">
+              {menuItems.map((item, index) => (
+                <NavigationMenuItem key={index} className="w-full">
+                  <Link
+                    onClick={() => {
+                      setActive(item.title);
+                      setIsOpen(false);
+                    }}
+                    href={item.href}
+                    className={`flex flex-col list-none text-sm text-center w-full ${
+                      active === item.title
+                        ? "bg-gradient-to-b text-white from-black to-black/80 dark:bg-gradient-to-b dark:from-white dark:to-gray-300 dark:text-black"
+                        : "hover:text-teal-600 dark:hover:text-teal-400"
+                    } px-3 py-2 rounded-lg font-[500] transition-all duration-200`}
+                  >
+                    {item.title}
+                  </Link>
+                </NavigationMenuItem>
+              ))}
+            </nav>
+          </CollapsibleContent>
+        </Collapsible>
         <Select value={theme} onValueChange={(value) => setTheme(value)}>
           <SelectTrigger className="w-[100px]">
             <SelectValue placeholder="Theme" />
@@ -133,9 +144,7 @@ export function Navbar() {
             </SelectItem>
           </SelectContent>
         </Select>
-        <Button className="hidden md:inline-flex font-semibold">
-          Get Started
-        </Button>
+        <Button className="inline-flex font-semibold">Get Started</Button>
       </div>
     </nav>
   );
