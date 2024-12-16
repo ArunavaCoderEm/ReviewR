@@ -102,7 +102,7 @@ export function Navbar() {
           </CollapsibleTrigger>
 
           <CollapsibleContent
-            className={`absolute list-none top-full left-0 w-full dark:bg-background-dark p-4 transition-all ${
+            className={`absolute bg-gradient-to-b from-background to-background/90 list-none top-full left-0 w-full p-4 transition-all ${
               isOpen ? "block" : "hidden"
             }`}
           >
@@ -118,7 +118,7 @@ export function Navbar() {
                     className={`flex flex-col list-none text-sm text-center w-full ${
                       active === item.title
                         ? "bg-gradient-to-b text-white from-black to-black/80 dark:bg-gradient-to-b dark:from-white dark:to-gray-300 dark:text-black"
-                        : "hover:text-teal-600 dark:hover:text-teal-400"
+                        : "hover:text-teal-600 dark:hover:text-teal-400 hover:bg-muted-foreground/10"
                     } px-3 py-2 rounded-lg font-[500] transition-all duration-200`}
                   >
                     {item.title}
