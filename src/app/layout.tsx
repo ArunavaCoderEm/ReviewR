@@ -4,8 +4,8 @@ import { ThemeProvider } from "@/Context/theme-provider";
 import { Navbar } from "@/components/component/Navbar";
 
 export const metadata: Metadata = {
-  title: "Will Think Later",
-  description: "Will Think Later",
+  title: "ReviewR",
+  description: "A website that creates helps you get realtime reviews for your website flawlessly.",
   icons: {
     icon: ["/Assets/reviewRlogo.ico"],
   },
