@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -38,6 +38,14 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
 
   const [active, setActive] = useState<string>("home");
+
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <nav className="flex items-center justify-between p-4 bg-background shadow-md dark:bg-background-dark relative">
