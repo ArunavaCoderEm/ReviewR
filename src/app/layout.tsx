@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Will Think Later",
   description: "Will Think Later",
   icons: {
-    icon: ["/Images/logotest.jpg"],
+    icon: ["/Assets/reviewRlogo.ico"],
   },
   manifest: "/site.webmanifest",
 };
