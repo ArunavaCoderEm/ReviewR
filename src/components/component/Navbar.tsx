@@ -11,9 +11,20 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useTheme } from "next-themes";
 import { menuItemsProps } from "@/Types/types";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const menuItems: menuItemsProps[] = [
   { title: "Home", href: "/" },
@@ -57,9 +68,9 @@ export function Navbar() {
                 href={item.href}
                 className={`text-sm ${
                   active === item.title
-                    ? "bg-gradient-to-b from-teal-400 to-teal-500 dark:bg-gradient-to-b dark:from-teal-800 dark:to-teal-900"
-                    : ""
-                } px-3 py-2 rounded-lg hover:text-teal-500 transition-all duration-200 dark:hover:text-teal-400`}
+                    ? "bg-gradient-to-b text-white from-teal-600 to-teal-700 dark:bg-gradient-to-b dark:from-teal-800 dark:to-teal-900"
+                    : "hover:text-teal-500 dark:hover:text-teal-400"
+                } px-3 py-2 rounded-lg font-[500] transition-all duration-200`}
               >
                 {item.title}
               </Link>
@@ -68,35 +79,64 @@ export function Navbar() {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger asChild className="md:hidden">
-          <Button variant="outline" size="icon" aria-label="Toggle menu">
+      <Collapsible className="md:hidden" open={isOpen} onOpenChange={setIsOpen}>
+        <CollapsibleTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            aria-label="Toggle menu"
+            className="md:hidden"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             <Menu className="h-6 w-6 text-teal-500 dark:text-teal-400" />
           </Button>
-        </SheetTrigger>
+        </CollapsibleTrigger>
 
-        <SheetContent
-          side="right"
-          className="bg-background dark:bg-background-dark p-4"
-        >
-          <nav className="flex flex-col gap-4">
-            {menuItems.map((item) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="text-lg font-medium hover:text-teal-500 dark:hover:text-teal-400"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.title}
-              </Link>
+        <CollapsibleContent className="bg-background dark:bg-background-dark p-4 w-full">
+          <nav className="flex flex-col gap-4 items-center">
+            {menuItems.map((item, index) => (
+              <NavigationMenuItem key={index}>
+                <Link
+                  onClick={() => {
+                    setActive(item.title);
+                    setIsOpen(false);
+                  }}
+                  href={item.href}
+                  className={`block text-sm text-center w-full ${
+                    active === item.title
+                      ? "bg-gradient-to-b text-white from-teal-600 to-teal-700 dark:bg-gradient-to-b dark:from-teal-800 dark:to-teal-900"
+                      : "hover:text-teal-500 dark:hover:text-teal-400"
+                  } px-3 py-2 rounded-lg font-[500] transition-all duration-200`}
+                >
+                  {item.title}
+                </Link>
+              </NavigationMenuItem>
             ))}
           </nav>
-        </SheetContent>
-      </Sheet>
+        </CollapsibleContent>
+      </Collapsible>
 
-      <Button className="hidden md:inline-flex font-semibold">
-        Get Started
-      </Button>
+      <div className="flex gap-2 items-center">
+        <Select value={theme} onValueChange={(value) => setTheme(value)}>
+          <SelectTrigger className="w-[100px]">
+            <SelectValue placeholder="Theme" />
+          </SelectTrigger>
+          <SelectContent className="cursor-pointer">
+            <SelectItem className="cursor-pointer" value="light">
+              Light
+            </SelectItem>
+            <SelectItem className="cursor-pointer" value="dark">
+              Dark
+            </SelectItem>
+            <SelectItem className="cursor-pointer" value="system">
+              System
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Button className="hidden md:inline-flex font-semibold">
+          Get Started
+        </Button>
+      </div>
     </nav>
   );
 }
