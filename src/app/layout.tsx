@@ -4,6 +4,12 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Will Think Later",
   description: "Will Think Later",
+  icons: {
+    shortcut: [
+      "/Images/logotest.jpg"
+    ]
+  },
+  manifest: "/site.webmanifest"
 };
 
 export default function RootLayout({
