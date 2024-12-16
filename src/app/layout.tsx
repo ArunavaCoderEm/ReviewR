@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/Context/theme-provider";
+import { Navbar } from "@/components/component/Navbar";
 
 export const metadata: Metadata = {
   title: "Will Think Later",
@@ -25,6 +26,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Navbar />
           {children}
         </ThemeProvider>
       </body>
