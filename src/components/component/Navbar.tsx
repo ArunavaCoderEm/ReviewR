@@ -27,7 +27,8 @@ import {
 } from "@/components/ui/select";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useClerk } from '@clerk/nextjs'
+import { useClerk } from "@clerk/nextjs";
+import { checkUserNeon } from "@/hooks/checkUser";
 
 const menuItems: menuItemsProps[] = [
   { title: "Home", href: "/" },
@@ -40,9 +41,16 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
 
+  useEffect(() => {
+    const helperFunc = async () => {
+      await checkUserNeon();
+    };
+    helperFunc();
+  }, []);
+
   const router = useRouter();
 
-  const { signOut } = useClerk()
+  const { signOut } = useClerk();
 
   const [active, setActive] = useState<string>("home");
 
@@ -160,10 +168,20 @@ export function Navbar() {
           </SelectContent>
         </Select>
         <SignedOut>
-          <Button onClick={() => router.push("/sign-in")} className="inline-flex font-semibold">Get Started</Button>
+          <Button
+            onClick={() => router.push("/sign-in")}
+            className="inline-flex font-semibold"
+          >
+            Get Started
+          </Button>
         </SignedOut>
         <SignedIn>
-          <Button onClick={() => signOut({ redirectUrl: '/' })} className="inline-flex font-semibold">Sign Out</Button>
+          <Button
+            onClick={() => signOut({ redirectUrl: "/" })}
+            className="inline-flex font-semibold"
+          >
+            Sign Out
+          </Button>
         </SignedIn>
       </div>
     </nav>

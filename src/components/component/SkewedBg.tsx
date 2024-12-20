@@ -1,7 +1,8 @@
+import { itemsProps } from "@/Types/types";
 import { FC } from "react";
 
 const SkewedInfiniteScroll: FC = () => {
-  const items = [
+  const items: itemsProps[] = [
     { id: "1", name: "John Doe", review: "Great service and very responsive!" },
     {
       id: "2",

@@ -22,5 +22,7 @@ export interface DotPatternBackgroundProps {
 }
 
 export interface itemsProps {
-    
+    id: string
+    name: string
+    review: string
 }
