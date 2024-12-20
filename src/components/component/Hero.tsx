@@ -3,8 +3,12 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { Earth, MoveRightIcon } from "lucide-react";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { useRouter } from "next/navigation"; 
 
 export default function Hero(): React.ReactNode {
+  const router = useRouter();
+
   return (
     <div className="flex z-10 flex-col container mx-auto px-6 pt-20 pb-24 items-center justify-center">
       <div className="py-7 mx-auto">
@@ -24,11 +28,28 @@ export default function Hero(): React.ReactNode {
         </h2>
       </div>
       <div className="flex items-center gap-3 justify-center">
-        <Button className="font-semibold px-4 py-6">
-          Get Started
-          <MoveRightIcon />
-        </Button>
-        <button className="bg-gradient-to-br hover:scale-95 transition-all duration-200 from-teal-400 px-4 py-3 font-semibold flex items-center gap-2 text-white to-teal-600 rounded-lg">
+        <SignedIn>
+          <Button
+            onClick={() => router.push("/dashboard")}
+            className="font-semibold px-4 py-6"
+          >
+            Dashboard
+            <MoveRightIcon />
+          </Button>
+        </SignedIn>
+        <SignedOut>
+          <Button
+            onClick={() => router.push("/sign-in")}
+            className="font-semibold px-4 py-6"
+          >
+            Get Started
+            <MoveRightIcon />
+          </Button>
+        </SignedOut>
+        <button
+          className="bg-gradient-to-br hover:scale-95 transition-all duration-200 from-teal-400 px-4 py-3 font-semibold flex items-center gap-2 text-white to-teal-600 rounded-lg"
+          onClick={() => router.push("/demo")}
+        >
           View Demo
           <Earth className="w-4" />
         </button>
