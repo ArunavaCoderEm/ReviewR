@@ -25,6 +25,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { useClerk } from '@clerk/nextjs'
 
 const menuItems: menuItemsProps[] = [
   { title: "Home", href: "/" },
@@ -36,6 +39,10 @@ const menuItems: menuItemsProps[] = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
+
+  const router = useRouter();
+
+  const { signOut } = useClerk()
 
   const [active, setActive] = useState<string>("home");
 
@@ -152,7 +159,12 @@ export function Navbar() {
             </SelectItem>
           </SelectContent>
         </Select>
-        <Button className="inline-flex font-semibold">Get Started</Button>
+        <SignedOut>
+          <Button onClick={() => router.push("/sign-in")} className="inline-flex font-semibold">Get Started</Button>
+        </SignedOut>
+        <SignedIn>
+          <Button onClick={() => signOut({ redirectUrl: '/' })} className="inline-flex font-semibold">Sign Out</Button>
+        </SignedIn>
       </div>
     </nav>
   );
