@@ -9,7 +9,7 @@ datasource db {
 }
 
 
-model User {
+model User {  
   id       Int      @id @default(autoincrement())
   email    String   @unique
   clerkid    String   @unique

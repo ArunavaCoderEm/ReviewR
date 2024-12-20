@@ -3,7 +3,7 @@
 import { prismaDb } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 
-export async function checkUserNeon () {
+export async function checkUserNeon() {
     const user = await currentUser();
     if (user?.id) {
         try {
@@ -11,23 +11,31 @@ export async function checkUserNeon () {
                 where: {
                     clerkid: user?.id
                 }
-            }) 
+            });
+
             if (isUser) {
                 return isUser;
             }
 
-            const newUser = prismaDb.user.create({
+            const email = user?.emailAddresses?.[0]?.emailAddress;
+            if (!email) {
+                console.log("Email address not found");
+                return null;
+            }
+
+            const newUser = await prismaDb.user.create({
                 data: {
-                    email: user?.emailAddresses[0]?.emailAddress,
+                    email: email,
                     clerkid: user?.id,
                     name: user?.fullName,  
                 }
-            })  
+            });
 
             return newUser;
 
-        } catch(e) {
-            console.log("Error ", e);
+        } catch (e) {
+            console.error("Error during user check or creation", e);
+            throw new Error("Error creating or checking user");
         }
 
     } else {
