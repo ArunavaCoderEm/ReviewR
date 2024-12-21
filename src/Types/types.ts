@@ -34,3 +34,11 @@ export interface sidebarProps {
   email: string | null | undefined;
   fullName: string | null | undefined
 }
+
+export interface websitesProps {
+  id: string,
+  url: string,
+  reviewLink: string,
+  createdById: string
+  name: string
+}

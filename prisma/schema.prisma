@@ -19,6 +19,7 @@ model User {
 model Website {
   id          String   @id @default(uuid())
   url         String
+  name        String
   reviewLink  String
   createdBy   User     @relation(fields: [createdById], references: [clerkid])
   createdById String
@@ -32,6 +33,6 @@ model Review {
   website   Website @relation(fields: [websiteId], references: [id])
   websiteId String 
   reviewer  String
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [clerkid])
   userId    String
 }

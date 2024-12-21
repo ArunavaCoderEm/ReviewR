@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from "uuid";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    if (!body || !body.url || !body.userId) {
+    if (!body || !body.url || !body.userId || !body.name) {
       return new Response(JSON.stringify({ error: "Invalid data" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    const { url, userId } = body;
+    const { url, userId, name } = body;
 
     const websiteEx = await prismaDb.website.findFirst({
       where: {
@@ -26,12 +26,14 @@ export async function POST(request: Request) {
       );
     }
 
-    const reviewLink = `http://localhost:3000/review/${uuidv4()}`;
+    const baseUrl = process.env.NODE_ENV === "production" ? "https://yourproductionurl.com" : "http://localhost:3000";
+    const reviewLink = `${baseUrl}/review/${uuidv4()}`;
 
     const newWebsite = await prismaDb.website.create({
       data: {
         url,
         reviewLink,
+        name,
         createdById: userId,
       },
     });

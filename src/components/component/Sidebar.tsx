@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { sidebarProps } from "@/Types/types";
+import Image from "next/image";
 
 const Sidebar: React.FC<sidebarProps> = ({
   isOpen,
@@ -12,7 +13,6 @@ const Sidebar: React.FC<sidebarProps> = ({
   fullName,
   email,
 }) => {
-
   return (
     <div
       className={`
@@ -39,10 +39,12 @@ const Sidebar: React.FC<sidebarProps> = ({
       <div>
         <div className="p-4 font-bold text-lg flex justify-between items-center mt-20">
           <span className="text-foreground flex gap-1 items-center">
-            <img
+            <Image
               src="/Images/reviewRlogo.jpeg"
-              className="rounded-full w-8"
-              alt=""
+              width={30}
+              height={30}
+              alt="LogoPic"
+              className="object-contain rounded-md"
             />
             ReviewR
           </span>
