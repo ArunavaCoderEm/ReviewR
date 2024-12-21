@@ -7,30 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {  
-  id        String    @id @default(uuid())
-  email     String    @unique
-  clerkid   String    @unique
-  name      String?
-  websites  Website[]
-  reviews   Review[] 
+model User {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  clerkid  String    @unique
+  name     String?
+  websites Website[]
+  reviews  Review[]
 }
 
 model Website {
-  id          Int       @id @default(autoincrement())
+  id          String   @id @default(uuid())
   url         String
-  createdBy   User       @relation(fields: [createdById], references: [id])
+  createdBy   User     @relation(fields: [createdById], references: [id])
   createdById String
   reviews     Review[]
 }
 
 model Review {
-  id         Int      @id @default(autoincrement())
-  content    String
-  rating     Int
-  website    Website  @relation(fields: [websiteId], references: [id])
-  websiteId  Int
-  reviewer   String  
-  user       User     @relation(fields: [userId], references: [id]) 
-  userId     String
+  id        String  @id @default(uuid())
+  content   String
+  rating    Int
+  website   Website @relation(fields: [websiteId], references: [id])
+  websiteId String 
+  reviewer  String
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
 }

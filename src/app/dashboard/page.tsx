@@ -6,10 +6,20 @@ import { LayoutDashboard, PlusCircleIcon } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerFooter,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
 
 export default function Dashboard(): React.ReactNode {
   const { user } = useUser();
-
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -37,10 +47,43 @@ export default function Dashboard(): React.ReactNode {
               <LayoutDashboard />
             </button>
           )}
-          <Button className="mt-10 font-[600]">
-            Get Reviews For New Website
-            <PlusCircleIcon />
-          </Button>
+
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button className="mt-10 font-[600]">
+                Get Reviews For New Website
+                <PlusCircleIcon />
+              </Button>
+            </DrawerTrigger>
+
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Create a link to generate reviews !</DrawerTitle>
+                <DrawerDescription>
+                  Paste your website link in the given section to generate a
+                  link to add reviews from users.
+                </DrawerDescription>
+              </DrawerHeader>
+              <div className="px-6 py-4 flex flex-col gap-1">
+                <label htmlFor="url" className="ml-1 mb-2">Your Website URL.</label>
+                <Input type="text" placeholder="Your URL goes here ..." />
+              </div>
+              <DrawerFooter>
+                <Button className="w-full md:w-80 font-semibold mx-auto mt-10">
+                  Submit
+                </Button>
+                <DrawerClose asChild>
+                  <Button
+                    className="w-full md:w-80 font-semibold mx-auto"
+                    variant="destructive"
+                  >
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+
           <p className="mt-10 text-2xl bg-clip-text text-transparent bg-gradient-to-b from-muted-foreground to-card-foreground font-extrabold">
             Here are your previous websites with reviews.
           </p>

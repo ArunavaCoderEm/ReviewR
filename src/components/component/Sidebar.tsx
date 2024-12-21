@@ -3,7 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
 import { sidebarProps } from "@/Types/types";
 
 const Sidebar: React.FC<sidebarProps> = ({
@@ -13,7 +12,6 @@ const Sidebar: React.FC<sidebarProps> = ({
   fullName,
   email,
 }) => {
-  const { user } = useUser();
 
   return (
     <div
@@ -23,6 +21,8 @@ const Sidebar: React.FC<sidebarProps> = ({
         left-0
         h-full
         bg-muted
+        z-10
+        opacity-100
         text-muted-foreground
         w-64
         transform
