@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Sidebar from "@/components/component/Sidebar";
 import { LayoutDashboard } from "lucide-react";
 
-export default function Dashboard() {
+export default function Dashboard():React.ReactNode {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
