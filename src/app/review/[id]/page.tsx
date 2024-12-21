@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 
 export default function ReviewPage({
   params,
@@ -16,7 +18,6 @@ export default function ReviewPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const [websiteUrl, setWebsiteUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [website, setWebsite] = useState<websitesProps>({
@@ -33,15 +34,12 @@ export default function ReviewPage({
     reviewer: "",
     profession: "",
   });
-  const [submissionMessage, setSubmissionMessage] = useState<string | null>(
-    null
-  );
+
 
   useEffect(() => {
     const fetchWebsite = async () => {
       try {
         const response = await axios.get(`/api/website/${id}`);
-        setWebsiteUrl(response.data.yourWebsite.url);
         setWebsite({
           id: response.data.yourWebsite.id,
           url: response.data.yourWebsite.url,
@@ -74,35 +72,47 @@ export default function ReviewPage({
     try {
       const response = await axios.post(`/api/review`, {
         ...formData,
-        websiteId: id,
+        websiteId: website.id,
       });
-      setSubmissionMessage("Review submitted successfully!");
       setFormData({ content: "", rating: 0, reviewer: "", profession: "" });
+      toast.success("Review submitted successfully!");
     } catch (err) {
-      console.error(err);
-      setSubmissionMessage("Failed to submit the review. Please try again.");
+        console.error(err);
+        toast.error("Failed to submit the review. Please try again.");
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading)
+    return (
+      <div className="relative h-80 flex flex-col items-center justify-center">
+        <Skeleton className="w-full h-32" />
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="relative h-80 flex flex-col items-center justify-center">
+        <p className="text-lg text-red-500">{error}</p>
+      </div>
+    );
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Leave a Review</h1>
-      <p className="mb-4">
+      <p className="mb-4 text-foreground">
         You are reviewing: <strong>{website.name}</strong>
       </p>
-      <p className="mb-4">
+      <p className="mb-4 text-foreground">
         Review conducted by: <strong>{website.creatorFullName}</strong>
       </p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <Label
             htmlFor="reviewer"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-muted-foreground"
           >
-            Your Name
+            Your Name 
+            <span className="text-red-600 ml-1 font-semibold">*</span>
           </Label>
           <Input
             type="text"
@@ -111,48 +121,54 @@ export default function ReviewPage({
             value={formData.reviewer}
             onChange={handleInputChange}
             required
-            className="mt-1 block w-full"
+            placeholder="God Ard"
+            className="mt-1 block w-full placeholder:text-gray-400"
           />
         </div>
         <div>
           <Label
             htmlFor="profession"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-muted-foreground"
           >
-            Your Profession
+            Your Profession 
+            <span className="text-red-600 ml-1 font-semibold">*</span>
           </Label>
           <Input
             type="text"
             id="profession"
             name="profession"
+            placeholder="Teacher"
             value={formData.profession}
             onChange={handleInputChange}
             required
-            className="mt-1 block w-full"
+            className="mt-1 block w-full placeholder:text-gray-400"
           />
         </div>
         <div>
           <Label
             htmlFor="content"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-muted-foreground"
           >
-            Review Content
+            Review Content 
+            <span className="text-red-600 ml-1 font-semibold">*</span>
           </Label>
           <Textarea
             id="content"
             name="content"
+            placeholder="I found this website very helpful"
             value={formData.content}
             onChange={handleInputChange}
             required
-            className="mt-1 block w-full"
+            className="mt-1 block w-full placeholder:text-gray-400"
           />
         </div>
         <div>
           <Label
             htmlFor="rating"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm mb-2 font-medium text-muted-foreground"
           >
-            Rating (1-5)
+            Rating (1-5) 
+            <span className="text-red-600 ml-1 font-semibold">*</span>
           </Label>
           <div className="flex mt-1">
             {[1, 2, 3, 4, 5].map((value) => {
@@ -165,9 +181,12 @@ export default function ReviewPage({
                   className="cursor-pointer"
                 >
                   {formData.rating >= value ? (
-                    <Star className="text-yellow-500 fill-current mx-1" size={24} />
+                    <Star
+                      className="text-yellow-500 fill-current mx-1"
+                      size={24}
+                    />
                   ) : (
-                    <Star className="text-gray-300 mx-1" size={24} />
+                    <Star className="dark:text-gray-300 text-gray-500 mx-1" size={24} />
                   )}
                 </div>
               );
@@ -176,7 +195,8 @@ export default function ReviewPage({
         </div>
         <Button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          variant={"outline"}
+          className="px-4 py-2"
         >
           Submit Review
         </Button>
