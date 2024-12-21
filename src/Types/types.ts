@@ -26,3 +26,8 @@ export interface itemsProps {
     name: string
     review: string
 }
+
+export interface sidebarProps {
+  toggleSidebar: () => void;
+  isOpen: boolean;
+}

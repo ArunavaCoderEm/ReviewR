@@ -63,7 +63,7 @@ export function Navbar() {
   if (!mounted) return null;
 
   return (
-    <nav className="flex items-center justify-between p-4 bg-background shadow-md dark:bg-background-dark relative">
+    <nav className="flex z-10 items-center justify-between p-4 bg-background shadow-md dark:bg-background-dark relative">
       <Link
         onClick={() => {
           setActive("Home");

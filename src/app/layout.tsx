@@ -30,7 +30,9 @@ export default function RootLayout({
         >
           <ClerkThemeWrapper>
             <Navbar />
-            {children}
+            <div className="p-3">
+              {children}
+            </div>
           </ClerkThemeWrapper>
         </ThemeProvider>
       </body>
