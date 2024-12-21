@@ -7,6 +7,7 @@ export async function POST(request: Request) {
     if (!body || !body.url || !body.userId) {
       return new Response(JSON.stringify({ error: "Invalid data" }), {
         status: 400,
+        headers: { "Content-Type": "application/json" },
       });
     }
 
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     if (websiteEx) {
       return new Response(
         JSON.stringify({ error: "Website already exists with this URL" }),
-        { status: 409 } 
+        { status: 409, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -35,8 +36,9 @@ export async function POST(request: Request) {
       },
     });
 
-    return new Response(JSON.stringify({ reviewLink: newWebsite.reviewLink }), {
+    return new Response(JSON.stringify({ newWebsite }), {
       status: 200,
+      headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
     console.error("Error occurred while creating website:", error);

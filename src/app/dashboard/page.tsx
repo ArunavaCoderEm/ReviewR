@@ -24,7 +24,6 @@ export default function Dashboard(): React.ReactNode {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [websiteUrl, setWebsiteUrl] = useState<string>("");
-  const [generatedLink, setGeneratedLink] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const toggleSidebar = () => {
