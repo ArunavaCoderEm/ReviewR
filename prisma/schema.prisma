@@ -19,7 +19,8 @@ model User {
 model Website {
   id          String   @id @default(uuid())
   url         String
-  createdBy   User     @relation(fields: [createdById], references: [id])
+  reviewLink  String
+  createdBy   User     @relation(fields: [createdById], references: [clerkid])
   createdById String
   reviews     Review[]
 }

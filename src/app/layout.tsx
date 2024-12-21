@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/Context/theme-provider";
 import { Navbar } from "@/components/component/Navbar";
 import { ClerkThemeWrapper } from "@/Context/ClerkTheme";
+import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
   title: "ReviewR",
@@ -34,6 +35,7 @@ export default function RootLayout({
               {children}
             </div>
           </ClerkThemeWrapper>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

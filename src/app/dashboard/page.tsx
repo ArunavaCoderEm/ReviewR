@@ -17,16 +17,46 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { toast } from "sonner";
 
 export default function Dashboard(): React.ReactNode {
   const { user } = useUser();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [websiteUrl, setWebsiteUrl] = useState<string>("");
+  const [generatedLink, setGeneratedLink] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  const arr = [1, 2, 3, 4, 5, 6, 7];
+  const arr: number[] = [1, 2, 3, 4, 5, 6, 7];
+
+  const handleSubmit = async () => {
+    if (websiteUrl) {
+      setLoading(true);
+      try {
+        const datasend = {
+          url: websiteUrl,
+          userId: user?.id || "",
+        };
+
+        const response = await axios.post("/api/createWebsite", datasend);
+        setWebsiteUrl("");
+        toast.success("Website has been added.");
+      } catch (error: any) {
+        console.error("Error occurred while generating review link:", error);
+
+        const errorMessage =
+          error?.response?.data?.error || "An error occurred";
+
+        toast.error(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <div className="flex">
@@ -65,12 +95,24 @@ export default function Dashboard(): React.ReactNode {
                 </DrawerDescription>
               </DrawerHeader>
               <div className="px-6 py-4 flex flex-col gap-1">
-                <label htmlFor="url" className="ml-1 mb-2">Your Website URL.</label>
-                <Input type="text" placeholder="Your URL goes here ..." />
+                <label htmlFor="url" className="ml-1 mb-2">
+                  Your Website URL.
+                </label>
+                <Input
+                  required
+                  value={websiteUrl}
+                  onChange={(e) => setWebsiteUrl(e.target.value)}
+                  type="text"
+                  placeholder="Your URL goes here ..."
+                />
               </div>
               <DrawerFooter>
-                <Button className="w-full md:w-80 font-semibold mx-auto mt-10">
-                  Submit
+                <Button
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className="w-full md:w-80 font-semibold mx-auto mt-10"
+                >
+                  {loading ? "Generating..." : "Submit"}
                 </Button>
                 <DrawerClose asChild>
                   <Button
