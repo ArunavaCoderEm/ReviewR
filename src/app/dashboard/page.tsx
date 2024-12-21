@@ -203,7 +203,7 @@ export default function Dashboard(): React.ReactNode {
               {websites?.map((item: websitesProps, index: number) => {
                 return (
                   <div key={index}>
-                    <Link href={""}>
+                    <Link href={`/viewreview/${item.id}`}>
                       <Card>
                         <CardHeader>
                           <CardTitle>{item?.name}</CardTitle>

@@ -16,7 +16,7 @@ export default function ReviewPage({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) {
+}):React.ReactNode {
   const { id } = use(params);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
