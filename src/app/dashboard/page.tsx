@@ -209,13 +209,13 @@ export default function Dashboard(): React.ReactNode {
                           <CardTitle>{item?.name}</CardTitle>
                           <CardDescription className="mt-2">
                             {item?.url}
-                          </CardDescription>
+                          </CardDescription> 
                         </CardHeader>
                         <CardContent>
                           <p className="font-semibold">
                             Createdby :{" "}
                             <span className="text-muted-foreground">
-                              {user?.fullName}
+                              {item?.creatorFullName}
                             </span>
                           </p>
                         </CardContent>
