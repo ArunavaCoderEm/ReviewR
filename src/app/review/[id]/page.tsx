@@ -70,6 +70,10 @@ export default function ReviewPage({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+        if (formData.rating === 0) {
+            toast.error("Minimum rating is 1");
+            return;
+        }
       const response = await axios.post(`/api/review`, {
         ...formData,
         websiteId: website.id,
