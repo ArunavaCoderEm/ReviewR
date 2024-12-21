@@ -71,6 +71,7 @@ export default function Dashboard(): React.ReactNode {
           url: websiteUrl,
           userId: user?.id || "",
           name: webname,
+          creatorFullName: user?.fullName
         };
 
         const response = await axios.post("/api/createWebsite", datasend);

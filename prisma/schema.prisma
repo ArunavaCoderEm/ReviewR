@@ -22,6 +22,7 @@ model Website {
   reviewLink  String
   createdBy   User     @relation(fields: [createdById], references: [clerkid])
   createdById String
+  creatorFullName String
   reviews     Review[]
 }
 
