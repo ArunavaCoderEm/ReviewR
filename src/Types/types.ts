@@ -43,3 +43,13 @@ export interface websitesProps {
   name: string
   creatorFullName: string
 }
+
+export interface websitesreviewProps {
+  id: string,
+  content: string,
+  rating: number,
+  reviewer: string
+  profession: string
+  websiteId: string
+  createdAt: Date | null
+}

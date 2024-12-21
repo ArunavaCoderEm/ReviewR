@@ -88,7 +88,8 @@ export default function ReviewPage({
 
   if (loading)
     return (
-      <div className="relative h-80 flex flex-col items-center justify-center">
+      <div className="relative h-80 gap-5 flex flex-col items-center justify-center">
+        <Skeleton className="w-full h-32" />
         <Skeleton className="w-full h-32" />
       </div>
     );
@@ -199,8 +200,8 @@ export default function ReviewPage({
         </div>
         <Button
           type="submit"
-          variant={"outline"}
-          className="px-4 py-2"
+          variant={"destructive"}
+          className="px-4 py-2 mt-5 bg-gradient-to-b from-teal-500 to-teal-600"
         >
           Submit Review
         </Button>
