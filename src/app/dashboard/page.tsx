@@ -28,6 +28,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Dashboard(): React.ReactNode {
   const { user } = useUser();
@@ -88,7 +89,6 @@ export default function Dashboard(): React.ReactNode {
   };
 
   const copyLink = (link: string, name: string): void => {
-
     if (!navigator.clipboard) {
       toast.error("Clipboard API not supported in this browser.");
       return;
@@ -202,20 +202,35 @@ export default function Dashboard(): React.ReactNode {
               {websites?.map((item: websitesProps, index: number) => {
                 return (
                   <div key={index}>
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>{item?.name}</CardTitle>
-                        <CardDescription className="mt-2">{item?.url}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="font-semibold">Createdby : <span className="text-muted-foreground">{user?.fullName}</span></p>
-                      </CardContent>
-                      <CardFooter>
-                        <Button className="font-semibold" onClick={() => copyLink(item?.reviewLink, item?.name)} >Copy Review Link
-                          <Copy />
-                        </Button>
-                      </CardFooter>
-                    </Card>
+                    <Link href={""}>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>{item?.name}</CardTitle>
+                          <CardDescription className="mt-2">
+                            {item?.url}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="font-semibold">
+                            Createdby :{" "}
+                            <span className="text-muted-foreground">
+                              {user?.fullName}
+                            </span>
+                          </p>
+                        </CardContent>
+                        <CardFooter>
+                          <Button
+                            className="font-semibold"
+                            onClick={() =>
+                              copyLink(item?.reviewLink, item?.name)
+                            }
+                          >
+                            Copy Review Link
+                            <Copy />
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </Link>
                   </div>
                 );
               })}

@@ -13,7 +13,6 @@ model User {
   clerkid  String    @unique
   name     String?
   websites Website[]
-  reviews  Review[]
 }
 
 model Website {
@@ -27,12 +26,12 @@ model Website {
 }
 
 model Review {
-  id        String  @id @default(uuid())
-  content   String
-  rating    Int
-  website   Website @relation(fields: [websiteId], references: [id])
-  websiteId String 
-  reviewer  String
-  user      User    @relation(fields: [userId], references: [clerkid])
-  userId    String
+  id         String   @id @default(uuid())
+  content    String
+  rating     Int
+  reviewer   String
+  profession String
+  website    Website  @relation(fields: [websiteId], references: [id])
+  websiteId  String
+  createdAt  DateTime @default(now())
 }
