@@ -6,7 +6,13 @@ import { X } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { sidebarProps } from "@/Types/types";
 
-const Sidebar: React.FC<sidebarProps> = ({ isOpen, toggleSidebar }) => {
+const Sidebar: React.FC<sidebarProps> = ({
+  isOpen,
+  toggleSidebar,
+  imgUrl,
+  fullName,
+  email,
+}) => {
   const { user } = useUser();
 
   return (
@@ -33,9 +39,13 @@ const Sidebar: React.FC<sidebarProps> = ({ isOpen, toggleSidebar }) => {
       <div>
         <div className="p-4 font-bold text-lg flex justify-between items-center mt-20">
           <span className="text-foreground flex gap-1 items-center">
-            <img src="/Images/reviewRlogo.jpeg" className="rounded-full w-8" alt="" />
+            <img
+              src="/Images/reviewRlogo.jpeg"
+              className="rounded-full w-8"
+              alt=""
+            />
             ReviewR
-            </span>
+          </span>
           <button
             onClick={toggleSidebar}
             className="md:hidden text-muted-foreground"
@@ -83,14 +93,17 @@ const Sidebar: React.FC<sidebarProps> = ({ isOpen, toggleSidebar }) => {
 
       <div className="p-4 bg-muted-foreground/10 border-t border-muted-foreground/20 flex items-center space-x-4">
         <img
-          src={user?.imageUrl ?? "/default-profile.png"}
+          src={
+            imgUrl ??
+            "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+          }
           className="rounded-full w-12 h-12 object-cover"
           alt="Profile Picture"
         />
         <div>
-          <p className="font-medium">{user?.fullName || "Guest User"}</p>
+          <p className="font-medium">{fullName || "Guest User"}</p>
           <p className="text-sm text-muted-foreground">
-            {user?.emailAddresses[0]?.emailAddress || "Not Provided"}
+            {email || "Not Provided"}
           </p>
         </div>
       </div>

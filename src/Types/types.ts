@@ -30,4 +30,7 @@ export interface itemsProps {
 export interface sidebarProps {
   toggleSidebar: () => void;
   isOpen: boolean;
+  imgUrl: string | null | undefined;
+  email: string | null | undefined;
+  fullName: string | null | undefined
 }
