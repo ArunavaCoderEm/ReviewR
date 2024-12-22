@@ -59,34 +59,26 @@ const Sidebar: React.FC<sidebarProps> = ({
           <ul className="space-y-4">
             <li>
               <Link
-                href="/"
+                href="/dashboard"
                 className="block px-4 py-2 hover:bg-muted-foreground/20 rounded"
               >
-                Home
+                Dashboard
               </Link>
             </li>
             <li>
               <Link
-                href="/about"
+                href="/faq"
                 className="block px-4 py-2 hover:bg-muted-foreground/20 rounded"
               >
-                About
+                FAQs
               </Link>
             </li>
             <li>
               <Link
-                href="/services"
+                href="/docs"
                 className="block px-4 py-2 hover:bg-muted-foreground/20 rounded"
               >
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="block px-4 py-2 hover:bg-muted-foreground/20 rounded"
-              >
-                Contact
+                Docs
               </Link>
             </li>
           </ul>
