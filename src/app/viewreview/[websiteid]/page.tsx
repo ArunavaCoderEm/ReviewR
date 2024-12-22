@@ -297,6 +297,9 @@ export default function ViewReview({
                     <CardDescription className="text-sm text-muted-foreground">
                       {item.profession}
                     </CardDescription>
+                    <CardDescription className="text-sm text-muted-foreground">
+                      {new Date(item.createdAt || "").toLocaleString()}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="text-sm text-secondary-foreground overflow-y-auto h-36">
                     <p>{item.content}</p>
