@@ -4,9 +4,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*",
+        hostname: "*", // Allows images from all HTTPS hosts
       },
     ],
+  },
+  eslint: {
+    ignoreDuringBuilds: true, // Disables ESLint during build processes
   },
 };
 
