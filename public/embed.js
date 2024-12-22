@@ -18,7 +18,7 @@
   
     container.innerHTML = `<p style="text-align: center; color: ${theme === "dark" ? "#d1d5db" : "#6b7280"};">Loading reviews...</p>`;
   
-    fetch(`http://localhost:3000/api/getreview/${websiteId}?totalRevs=${totalrev}&ratingAbove=${minrating}`)
+    fetch(`https://review-r.vercel.app/api/getreview/${websiteId}?totalRevs=${totalrev}&ratingAbove=${minrating}`)
       .then((response) => response.json())
       .then((data) => {
         const reviews = data.webReviews || [];
@@ -80,7 +80,7 @@
         const footer = document.createElement("div");
         footer.style.textAlign = "center";
         footer.style.marginTop = "16px";
-        footer.innerHTML = `<a href="http://localhost:3000" target="_blank" style="font-size: 12px; color: ${theme === "dark" ? "#3b82f6" : "#3b82f6"}; text-decoration: underline;">Powered by ReviewR</a>`;
+        footer.innerHTML = `<a href="https://review-r.vercel.app" target="_blank" style="font-size: 12px; color: ${theme === "dark" ? "#3b82f6" : "#3b82f6"}; text-decoration: underline;">Powered by ReviewR</a>`;
         container.appendChild(footer);
       })
       .catch((error) => {

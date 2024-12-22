@@ -119,7 +119,7 @@ export default function ViewReview({
   const [theme, setTheme] = useState<string>("light");
 
   const [emblink, setEmblink] =
-    useState<string>(`<script src="http://localhost:3000/embed.js" 
+    useState<string>(`<script src="https://review-r.vercel.app/embed.js" 
     data-website-id=${websiteid} 
     data-theme=${theme}
     data-min-rating=${minrat} 
@@ -129,7 +129,7 @@ export default function ViewReview({
 
   useEffect(() => {
     setEmblink(`
-      <script src="http://localhost:3000/embed.js" 
+      <script src="https://review-r.vercel.app/embed.js" 
         data-website-id="${websiteid}" 
         data-theme="${theme}" 
         data-min-rating="${minrat}" 
