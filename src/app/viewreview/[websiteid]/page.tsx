@@ -70,7 +70,12 @@ export default function ViewReview({
         creatorFullName: response.data.yourWebsite.creatorFullName,
       });
 
-      const responserev = await axios.get(`/api/getreview/${websiteid}`);
+      const responserev = await axios.get(`/api/getreview/${websiteid}`, {
+        params: {
+          totalRevs: totalRevs,  // Pass the state values as query parameters
+          ratingAbove: ratingAbove,
+        },
+      });
       setReview(responserev?.data?.webReviews || []);
     } catch (err: any) {
       setError("Website not found or invalid link");

@@ -6,6 +6,9 @@ export async function GET(
 ) {
   try {
     const { id } = params;
+    const url = new URL(req.url);
+    const totalRevs = url.searchParams.get("totalRevs");
+    const ratingAbove = url.searchParams.get("ratingAbove");
 
     if (!id) {
       return new Response(JSON.stringify({ error: "Invalid ID" }), {
@@ -14,6 +17,7 @@ export async function GET(
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
         },
       });
     }
@@ -31,14 +35,24 @@ export async function GET(
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
         },
       });
     }
 
+    const reviewsWhereCondition: any = {
+      websiteId: id,
+    };
+
+    // If ratingAbove is passed, filter reviews with rating greater than or equal to the value
+    if (ratingAbove) {
+      reviewsWhereCondition.rating = { gte: Number(ratingAbove) };
+    }
+
+    // If totalRevs is passed, limit the number of reviews returned
     const reviews = await prismaDb.review.findMany({
-      where: {
-        websiteId: id,
-      },
+      where: reviewsWhereCondition,
+      take: totalRevs ? Number(totalRevs) : undefined,
     });
 
     return new Response(JSON.stringify({ webReviews: reviews }), {
@@ -47,6 +61,7 @@ export async function GET(
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
       },
     });
   } catch (error) {
@@ -57,6 +72,7 @@ export async function GET(
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
       },
     });
   }

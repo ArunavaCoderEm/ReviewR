@@ -2,6 +2,8 @@
     const script = document.currentScript;
     const websiteId = script.getAttribute("data-website-id");
     const theme = script.getAttribute("data-theme") || "light";
+    const minrating = script.getAttribute("data-min-rating") || undefined;
+    const totalrev = script.getAttribute("data-total-rev") || undefined;
   
     const container = document.createElement("div");
     container.id = "review-widget-container";
@@ -16,7 +18,7 @@
   
     container.innerHTML = `<p style="text-align: center; color: ${theme === "dark" ? "#d1d5db" : "#6b7280"};">Loading reviews...</p>`;
   
-    fetch(`http://localhost:3000/api/getreview/${websiteId}`)
+    fetch(`http://localhost:3000/api/getreview/${websiteId}?totalRevs=${totalrev}&ratingAbove=${minrating}`)
       .then((response) => response.json())
       .then((data) => {
         const reviews = data.webReviews || [];
