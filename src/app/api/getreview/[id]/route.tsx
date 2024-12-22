@@ -10,7 +10,11 @@ export async function GET(
     if (!id) {
       return new Response(JSON.stringify({ error: "Invalid ID" }), {
         status: 400,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", 
+          "Access-Control-Allow-Methods": "GET,OPTIONS", 
+        },
       });
     }
 
@@ -23,25 +27,37 @@ export async function GET(
     if (!websiteEx) {
       return new Response(JSON.stringify({ error: "Invalid ID" }), {
         status: 404,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", 
+          "Access-Control-Allow-Methods": "GET,OPTIONS", 
+        },
       });
     }
 
     const reviews = await prismaDb.review.findMany({
-        where: {
-            websiteId: id
-        }
-    })
+      where: {
+        websiteId: id,
+      },
+    });
 
     return new Response(JSON.stringify({ webReviews: reviews }), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", 
+        "Access-Control-Allow-Methods": "GET,OPTIONS", 
+      },
     });
   } catch (error) {
     console.error("Error occurred while getting website:", error);
     return new Response(JSON.stringify({ error: "Failed to get website" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", 
+        "Access-Control-Allow-Methods": "GET,OPTIONS", 
+      },
     });
   }
 }
