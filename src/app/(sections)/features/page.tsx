@@ -15,8 +15,8 @@ const FeaturesPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen p-8">
-      <div className="mx-auto p-6 rounded-lg shadow-lg">
+    <div className="min-h-screen p-2 md:p-8">
+      <div className="mx-auto p-1 md:p-6 rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-t from-foreground to-muted-foreground mb-6">
           ReviewR Features
         </h1>
