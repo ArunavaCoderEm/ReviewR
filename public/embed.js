@@ -1,9 +1,8 @@
 (function () {
     const script = document.currentScript;
     const websiteId = script.getAttribute("data-website-id");
-    const theme = script.getAttribute("data-theme") || "light"; // Get theme (default to light)
+    const theme = script.getAttribute("data-theme") || "light";
   
-    // Create and style the review container
     const container = document.createElement("div");
     container.id = "review-widget-container";
     container.style.maxWidth = "1200px";
@@ -15,10 +14,8 @@
     container.style.border = theme === "dark" ? "1px solid #374151" : "1px solid #e5e7eb"; 
     document.body.appendChild(container);
   
-
     container.innerHTML = `<p style="text-align: center; color: ${theme === "dark" ? "#d1d5db" : "#6b7280"};">Loading reviews...</p>`;
   
-
     fetch(`http://localhost:3000/api/getreview/${websiteId}`)
       .then((response) => response.json())
       .then((data) => {
@@ -29,7 +26,6 @@
           return;
         }
   
-
         const gridWrapper = document.createElement("div");
         gridWrapper.style.display = "grid";
         gridWrapper.style.gap = "24px";
@@ -60,12 +56,14 @@
             year: "numeric",
           });
   
+          const stars = Array.from({ length: 5 }, (_, i) => i < review.rating ? "★" : "☆").join("");
+  
           const reviewCard = `
             <div style="background-color: ${theme === "dark" ? "#374151" : "#f9fafb"}; padding: 16px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border: 1px solid ${theme === "dark" ? "#4b5563" : "#e5e7eb"};">
               <div style="text-align: center;">
                 <p style="font-weight: bold; color: ${theme === "dark" ? "#d1d5db" : "#2d3748"};">${review.reviewer || "Anonymous"}</p>
                 <p style="font-size: 12px; color: ${theme === "dark" ? "#9ca3af" : "#6b7280"};">${review.profession || "Not Specified"}</p>
-                <p style="font-weight: bold; color: #48bb78; font-size: 18px;">${review.rating || "0"}/5</p>
+                <p style="font-weight: bold; color: #48bb78; font-size: 18px;">${stars} ${review.rating || "0"}/5</p>
               </div>
               <div style="margin-top: 8px;">
                 <p style="font-size: 10px; color: ${theme === "dark" ? "#9ca3af" : "#9ca3af"};">${formattedDate}</p>
@@ -74,11 +72,9 @@
             </div>
           `;
   
- 
           gridWrapper.innerHTML += reviewCard;
         });
   
-
         const footer = document.createElement("div");
         footer.style.textAlign = "center";
         footer.style.marginTop = "16px";
