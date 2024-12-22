@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Star } from "lucide-react";
+import { Menu, Star } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -21,6 +21,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import {
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 const getStars = (rating: number) => {
   const stars = [];
@@ -43,6 +60,7 @@ export default function ViewReview({
 }): React.ReactNode {
   const { websiteid } = use(params);
   const [loading, setLoading] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   const [website, setWebsite] = useState<websitesProps>({
     id: "",
     url: "",
@@ -54,11 +72,11 @@ export default function ViewReview({
   const [reviews, setReview] = useState<websitesreviewProps[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const [totalRevs, setTotalRevs] = useState<number>(1);
-  const [ratingAbove, setRatingAbove] = useState<number>(5);
+  const [totalRevs, setTotalRevs] = useState<number>(100);
+  const [ratingAbove, setRatingAbove] = useState<number>(0);
 
   const fetchReviewsData = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const response = await axios.get(`/api/getwebid/${websiteid}`);
       setWebsite({
@@ -72,7 +90,7 @@ export default function ViewReview({
 
       const responserev = await axios.get(`/api/getreview/${websiteid}`, {
         params: {
-          totalRevs: totalRevs,  
+          totalRevs: totalRevs,
           ratingAbove: ratingAbove,
         },
       });
@@ -80,14 +98,13 @@ export default function ViewReview({
     } catch (err: any) {
       setError("Website not found or invalid link");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchReviewsData();
   }, [websiteid, totalRevs, ratingAbove]);
-
 
   if (error) {
     return (
@@ -97,11 +114,115 @@ export default function ViewReview({
     );
   }
 
+  const [tot, setTot] = useState<string>("20");
+  const [minrat, setMinrat] = useState<string>("0");
+  const [theme, setTheme] = useState<string>("light");
+
+  const [emblink, setEmblink] =
+    useState<string>(`<script src="http://localhost:3000/embed.js" 
+    data-website-id=${websiteid} 
+    data-theme=${theme}
+    data-min-rating=${minrat} 
+    data-total-rev=${tot}
+    async>
+  </script>`);
+
+  useEffect(() => {
+    setEmblink(`
+      <script src="http://localhost:3000/embed.js" 
+        data-website-id="${websiteid}" 
+        data-theme="${theme}" 
+        data-min-rating="${minrat}" 
+        data-total-rev="${tot}"
+        async>
+      </script>
+    `);
+  }, [theme, minrat, tot]);
+
+  const copyLink = (link: string): void => {
+    if (!navigator.clipboard) {
+      toast.error("Clipboard API not supported in this browser.");
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        toast.success(`Script copied to clipboard`);
+      })
+      .catch((error) => {
+        toast.error("Failed to copy link");
+        alert("Failed to copy the script. Please try again.");
+      });
+  };
+
   return (
     <div className="md:container mt-6 md:mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">
-        User Reviews for {website.name}
-      </h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold mb-4">
+          User Reviews for {website.name}
+        </h1>
+        <Button onClick={() => setOpen(true)} variant={"default"}>
+          <Menu />
+        </Button>
+      </div>
+      <Command>
+        <CommandDialog open={open} onOpenChange={setOpen}>
+          <DialogTitle>Create an embedded link</DialogTitle>
+          <DialogContent>
+            <DialogTitle>Create an embedded link</DialogTitle>
+            <DialogDescription>
+              Here you can customize and create a direct access embedded link
+            </DialogDescription>
+
+            <div className="mb-4">
+              <Select value={theme} onValueChange={setTheme}>
+                <SelectTrigger>
+                  <span>Theme: {theme}</span>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="mb-4">
+              <Select value={minrat} onValueChange={setMinrat}>
+                <SelectTrigger>
+                  <span>Min Rating: {minrat}</span>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">All</SelectItem>
+                  <SelectItem value="1">1</SelectItem>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="3">3</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                  <SelectItem value="5">5</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="mb-4">
+              <Select value={tot} onValueChange={setTot}>
+                <SelectTrigger>
+                  <span>Total: {tot}</span>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="30">30</SelectItem>
+                  <SelectItem value="40">40</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <Button onClick={() => copyLink(emblink)}>Copy Script</Button>
+          </DialogContent>
+        </CommandDialog>
+      </Command>
+
       <div className="flex md:flex-row flex-col gap-4 mb-6">
         <div className="p-1">
           <label
@@ -154,10 +275,10 @@ export default function ViewReview({
       </div>
 
       {loading && (
-          <div className="flex items-cecnter flex-col gap-5 relative">
-            <Skeleton className="w-full h-32" />
-            <Skeleton className="w-full h-32" />
-          </div>
+        <div className="flex items-cecnter flex-col gap-5 relative">
+          <Skeleton className="w-full h-32" />
+          <Skeleton className="w-full h-32" />
+        </div>
       )}
 
       {!loading && !error && (
