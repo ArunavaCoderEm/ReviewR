@@ -1,11 +1,13 @@
 import { prismaDb } from "@/lib/prisma";
 
-export async function GET(
+export async function POST(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
     const { id } = params;
+    const body = await req.json();
+    const { totalRevs, ratingAbove } = body;
 
     if (!id) {
       return new Response(JSON.stringify({ error: "Invalid ID" }), {
@@ -13,7 +15,7 @@ export async function GET(
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*", 
-          "Access-Control-Allow-Methods": "GET,OPTIONS", 
+          "Access-Control-Allow-Methods": "POST,OPTIONS", 
         },
       });
     }
@@ -24,21 +26,28 @@ export async function GET(
       },
     });
 
-    if (!websiteEx) {
-      return new Response(JSON.stringify({ error: "Invalid ID" }), {
+    if (!websiteEx || websiteEx.length === 0) {
+      return new Response(JSON.stringify({ error: "Website not found" }), {
         status: 404,
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*", 
-          "Access-Control-Allow-Methods": "GET,OPTIONS", 
+          "Access-Control-Allow-Methods": "POST,OPTIONS", 
         },
       });
     }
 
+    const reviewsWhereCondition: any = {
+      websiteId: id,
+    };
+
+    if (ratingAbove) {
+      reviewsWhereCondition.rating = { gte: ratingAbove };
+    }
+
     const reviews = await prismaDb.review.findMany({
-      where: {
-        websiteId: id,
-      },
+      where: reviewsWhereCondition,
+      take: totalRevs ? totalRevs : undefined,
     });
 
     return new Response(JSON.stringify({ webReviews: reviews }), {
@@ -46,7 +55,7 @@ export async function GET(
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*", 
-        "Access-Control-Allow-Methods": "GET,OPTIONS", 
+        "Access-Control-Allow-Methods": "POST,OPTIONS", 
       },
     });
   } catch (error) {
@@ -56,7 +65,7 @@ export async function GET(
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*", 
-        "Access-Control-Allow-Methods": "GET,OPTIONS", 
+        "Access-Control-Allow-Methods": "POST,OPTIONS", 
       },
     });
   }
