@@ -9,13 +9,7 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "no-unused-vars": "off", // Turn off the ESLint rule for unused variables
-    "@typescript-eslint/no-unused-vars": [
-      "warn", // Change to "warn" to avoid errors for unused variables in TypeScript
-      {
-        "argsIgnorePattern": "^_", // Ignore unused function arguments that start with "_"
-        "varsIgnorePattern": "^_" // Ignore unused variables that start with "_"
-      }
-    ],
+    "@typescript-eslint/no-unused-vars": "off", // Disable the TypeScript-specific unused variables rule
     "no-console": "warn", // Optionally, you can warn about console statements
     "@typescript-eslint/no-explicit-any": "off", // If you are using 'any' type, this can be turned off
     "react/react-in-jsx-scope": "off", // This is usually needed for React 17 and above if you are not using React import in every file
