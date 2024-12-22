@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/Context/theme-provider";
 import { Navbar } from "@/components/component/Navbar";
 import { ClerkThemeWrapper } from "@/Context/ClerkTheme";
 import { Toaster } from "@/components/ui/sonner"
+import Footer from "@/components/component/Footer";
 
 export const metadata: Metadata = {
   title: "ReviewR",
@@ -31,9 +32,10 @@ export default function RootLayout({
         >
           <ClerkThemeWrapper>
             <Navbar />
-            <div className="p-3">
+            <div className="p-3 min-h-screen">
               {children}
             </div>
+            <Footer />
           </ClerkThemeWrapper>
           <Toaster />
         </ThemeProvider>
