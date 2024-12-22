@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const baseUrl = process.env.NODE_ENV === "production" ? "https://yourproductionurl.com" : "http://localhost:3000";
+    const baseUrl = process.env.NODE_ENV === "production" ? "https://review-r.vercel.app" : "http://localhost:3000";
     const reviewLink = `${baseUrl}/review/${uuidv4()}`;
 
     const newWebsite = await prismaDb.website.create({
