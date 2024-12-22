@@ -100,13 +100,9 @@ List of the key features of **ReviewR** and why it is efficient:
 
 ## Screenshots
 
-![Screenshot 2024-11-23 at 03-38-28 SupesView](https://github.com/user-attachments/assets/d085f12c-22a2-4154-9d63-9979488c7940)
-![Screenshot 2024-11-23 at 03-38-14 SupesView](https://github.com/user-attachments/assets/0fb0e132-cb0e-462f-8857-9bd2064849d7)
-![Screenshot 2024-11-23 at 03-37-50 SupesView](https://github.com/user-attachments/assets/cdcfff78-471d-4c15-8e41-910c37a99424)
-![Screenshot 2024-11-23 at 03-37-22 SupesView](https://github.com/user-attachments/assets/5c8a7095-28b3-4c25-9eaf-b1eb50fecca5)
-![Screenshot 2024-11-23 at 03-37-01 SupesView](https://github.com/user-attachments/assets/c9515266-fc1d-4803-adc4-7de9fe39ac9b)
-![Screenshot 2024-11-23 at 03-36-46 SupesView](https://github.com/user-attachments/assets/ca841ada-5d2b-4411-87eb-c69ea704fbfb)
-
+![1](https://github.com/user-attachments/assets/aebad271-9d44-496c-9026-f8b294278909) ![2](https://github.com/user-attachments/assets/c2398cf4-3f84-4195-bd93-ec3e97796061)  
+![3](https://github.com/user-attachments/assets/8ac4e108-809a-4049-a889-eabc8069bf5b) ![4](https://github.com/user-attachments/assets/b800c34f-e138-49cc-9b84-9891d3d8cf84)  
+![5](https://github.com/user-attachments/assets/d793c2a5-c68c-46f6-af8e-04794c5dc53a) ![6](https://github.com/user-attachments/assets/ed45ba85-8e77-4922-8466-59ae32752857)
 
 
 ## Contribution
