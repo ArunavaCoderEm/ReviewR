@@ -1,21 +1,19 @@
 import { prismaDb } from "@/lib/prisma";
 
-export async function POST(
+export async function GET(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
     const { id } = params;
-    const body = await req.json();
-    const { totalRevs, ratingAbove } = body;
 
     if (!id) {
       return new Response(JSON.stringify({ error: "Invalid ID" }), {
         status: 400,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*", 
-          "Access-Control-Allow-Methods": "POST,OPTIONS", 
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,OPTIONS",
         },
       });
     }
@@ -31,31 +29,24 @@ export async function POST(
         status: 404,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*", 
-          "Access-Control-Allow-Methods": "POST,OPTIONS", 
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,OPTIONS",
         },
       });
     }
 
-    const reviewsWhereCondition: any = {
-      websiteId: id,
-    };
-
-    if (ratingAbove) {
-      reviewsWhereCondition.rating = { gte: ratingAbove };
-    }
-
     const reviews = await prismaDb.review.findMany({
-      where: reviewsWhereCondition,
-      take: totalRevs ? totalRevs : undefined,
+      where: {
+        websiteId: id,
+      },
     });
 
     return new Response(JSON.stringify({ webReviews: reviews }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", 
-        "Access-Control-Allow-Methods": "POST,OPTIONS", 
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,OPTIONS",
       },
     });
   } catch (error) {
@@ -64,8 +55,8 @@ export async function POST(
       status: 500,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", 
-        "Access-Control-Allow-Methods": "POST,OPTIONS", 
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,OPTIONS",
       },
     });
   }
