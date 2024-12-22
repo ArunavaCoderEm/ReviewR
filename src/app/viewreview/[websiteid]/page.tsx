@@ -72,7 +72,7 @@ export default function ViewReview({
 
       const responserev = await axios.get(`/api/getreview/${websiteid}`, {
         params: {
-          totalRevs: totalRevs,  // Pass the state values as query parameters
+          totalRevs: totalRevs,  
           ratingAbove: ratingAbove,
         },
       });

@@ -44,12 +44,11 @@ export async function GET(
       websiteId: id,
     };
 
-    // If ratingAbove is passed, filter reviews with rating greater than or equal to the value
+
     if (ratingAbove) {
       reviewsWhereCondition.rating = { gte: Number(ratingAbove) };
     }
 
-    // If totalRevs is passed, limit the number of reviews returned
     const reviews = await prismaDb.review.findMany({
       where: reviewsWhereCondition,
       take: totalRevs ? Number(totalRevs) : undefined,
