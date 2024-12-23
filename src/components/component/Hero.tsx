@@ -48,7 +48,7 @@ export default function Hero(): React.ReactNode {
         </SignedOut>
         <button
           className="bg-gradient-to-br hover:scale-95 transition-all duration-200 from-teal-400 px-4 py-3 font-semibold flex items-center gap-2 text-white to-teal-600 rounded-lg"
-          onClick={() => router.push("/demo")}
+          onClick={() => router.push("https://replit.com/@acecankill/TestTemplateReviewR")}
         >
           View Demo
           <Earth className="w-4" />
