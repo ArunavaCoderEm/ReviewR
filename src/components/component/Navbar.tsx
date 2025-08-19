@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -42,6 +42,7 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
+    console.log("Effect running...");
     const helperFunc = async () => {
       await checkUserNeon();
     };

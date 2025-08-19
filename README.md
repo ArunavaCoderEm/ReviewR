@@ -5,7 +5,7 @@
 - Frontend  
 
 ```sh
-https://review-r.vercel.app/
+https://review-r.godutta.tech/
 ``` 
 
 

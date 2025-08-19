@@ -15,7 +15,7 @@ export async function GET(
       );
     }
 
-    const baseUrl = process.env.NODE_ENV === "production" ? "https://review-r.vercel.app" : "http://localhost:3000";
+    const baseUrl = process.env.NODE_ENV === "production" ? "https://review-r.godutta.tech" : "http://localhost:3000";
         
     const websiteEx = await prismaDb.website.findFirst({
       where: {
