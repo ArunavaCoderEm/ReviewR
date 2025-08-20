@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const { content, rating, reviewer, profession, websiteId } = body;
+    const { content, rating, reviewer, profession, websiteId, sentiment } = body;
 
     const websiteEx = await prismaDb.website.findFirst({
       where: {
@@ -31,7 +31,8 @@ export async function POST(request: Request) {
         rating,
         reviewer,
         websiteId,
-        profession
+        profession,
+        sentiment
       },
     });
 

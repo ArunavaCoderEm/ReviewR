@@ -22,9 +22,9 @@ export interface DotPatternBackgroundProps {
 }
 
 export interface itemsProps {
-    id: string
-    name: string
-    review: string
+  id: string;
+  name: string;
+  review: string;
 }
 
 export interface sidebarProps {
@@ -32,24 +32,25 @@ export interface sidebarProps {
   isOpen: boolean;
   imgUrl: string | null | undefined;
   email: string | null | undefined;
-  fullName: string | null | undefined
+  fullName: string | null | undefined;
 }
 
 export interface websitesProps {
-  id: string,
-  url: string,
-  reviewLink: string,
-  createdById: string
-  name: string
-  creatorFullName: string
+  id: string;
+  url: string;
+  reviewLink: string;
+  createdById: string;
+  name: string;
+  creatorFullName: string;
 }
 
 export interface websitesreviewProps {
-  id: string,
-  content: string,
-  rating: number,
-  reviewer: string
-  profession: string
-  websiteId: string
-  createdAt: Date | null
+  id: string;
+  content: string;
+  rating: number;
+  reviewer: string;
+  profession: string;
+  websiteId: string;
+  createdAt: Date | null;
+  sentiment: string;
 }

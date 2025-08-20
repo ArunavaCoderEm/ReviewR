@@ -16,23 +16,29 @@ model User {
 }
 
 model Website {
-  id          String   @id @default(uuid())
-  url         String
-  name        String
-  reviewLink  String
-  createdBy   User     @relation(fields: [createdById], references: [clerkid])
-  createdById String
+  id              String   @id @default(uuid())
+  url             String
+  name            String
+  reviewLink      String
+  createdBy       User     @relation(fields: [createdById], references: [clerkid])
+  createdById     String
   creatorFullName String
-  reviews     Review[]
+  reviews         Review[]
 }
 
 model Review {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   content    String
   rating     Int
+  sentiment  Sentiment @default(positive)
   reviewer   String
   profession String
-  website    Website  @relation(fields: [websiteId], references: [id])
+  website    Website   @relation(fields: [websiteId], references: [id])
   websiteId  String
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
+}
+
+enum Sentiment {
+  positive
+  negative
 }

@@ -22,16 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
+import { Command, CommandDialog } from "@/components/ui/command";
 import {
   DialogContent,
   DialogDescription,
@@ -61,6 +52,7 @@ export default function ViewReview({
   const { websiteid } = use(params);
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
+  const [sentimentFilter, setSentimentFilter] = useState<string>("all");
   const [website, setWebsite] = useState<websitesProps>({
     id: "",
     url: "",
@@ -92,6 +84,7 @@ export default function ViewReview({
         params: {
           totalRevs: totalRevs,
           ratingAbove: ratingAbove,
+          sentiment: sentimentFilter,
         },
       });
       setReview(responserev?.data?.webReviews || []);
@@ -104,7 +97,7 @@ export default function ViewReview({
 
   useEffect(() => {
     fetchReviewsData();
-  }, [websiteid, totalRevs, ratingAbove]);
+  }, [websiteid, totalRevs, ratingAbove, sentimentFilter]);
 
   if (error) {
     return (
@@ -272,6 +265,27 @@ export default function ViewReview({
             </SelectContent>
           </Select>
         </div>
+
+        <div className="p-1">
+          <label
+            htmlFor="ratingAbove"
+            className="block text-sm mb-3 font-medium text-muted-foreground"
+          >
+            Sentiment
+          </label>
+          <Select
+            value={sentimentFilter}
+            onValueChange={(value) => setSentimentFilter(value)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select sentiment" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="positive">Positive</SelectItem>
+              <SelectItem value="negative">Negative</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {loading && (
@@ -296,6 +310,9 @@ export default function ViewReview({
                     </CardTitle>
                     <CardDescription className="text-sm text-muted-foreground">
                       {item.profession}
+                    </CardDescription>
+                    <CardDescription className="text-sm text-muted-foreground">
+                      {item.sentiment}
                     </CardDescription>
                     <CardDescription className="text-sm text-muted-foreground">
                       {new Date(item.createdAt || "").toLocaleString()}

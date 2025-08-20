@@ -71,11 +71,13 @@ export default function Dashboard(): React.ReactNode {
           url: websiteUrl,
           userId: user?.id || "",
           name: webname,
-          creatorFullName: user?.fullName
+          creatorFullName: user?.fullName,
         };
 
         const response = await axios.post("/api/createWebsite", datasend);
         setWebsiteUrl("");
+        setWebname("");
+        setIsOpen(false);
         getwebsites();
         toast.success("Website has been added.");
       } catch (error: any) {
@@ -203,13 +205,13 @@ export default function Dashboard(): React.ReactNode {
               {websites?.map((item: websitesProps, index: number) => {
                 return (
                   <div key={index}>
-                    <Link href={`/viewreview/${item.id}`}>
+                    <div>
                       <Card>
                         <CardHeader>
                           <CardTitle>{item?.name}</CardTitle>
                           <CardDescription className="mt-2">
                             {item?.url}
-                          </CardDescription> 
+                          </CardDescription>
                         </CardHeader>
                         <CardContent>
                           <p className="font-semibold">
@@ -229,9 +231,15 @@ export default function Dashboard(): React.ReactNode {
                             Copy Review Link
                             <Copy />
                           </Button>
+                          <Link
+                            href={`/viewreview/${item.id}`}
+                            className="font-semibold ml-3 border px-3 py-1 rounded-lg"
+                          >
+                            Visit
+                          </Link>
                         </CardFooter>
                       </Card>
-                    </Link>
+                    </div>
                   </div>
                 );
               })}

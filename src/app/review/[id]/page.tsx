@@ -16,7 +16,7 @@ export default function ReviewPage({
   params,
 }: {
   params: Promise<{ id: string }>;
-}):React.ReactNode {
+}): React.ReactNode {
   const { id } = use(params);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +34,6 @@ export default function ReviewPage({
     reviewer: "",
     profession: "",
   });
-
 
   useEffect(() => {
     const fetchWebsite = async () => {
@@ -70,19 +69,30 @@ export default function ReviewPage({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-        if (formData.rating === 0) {
-            toast.error("Minimum rating is 1");
-            return;
-        }
-      const response = await axios.post(`/api/review`, {
-        ...formData,
-        websiteId: website.id,
-      });
-      setFormData({ content: "", rating: 0, reviewer: "", profession: "" });
-      toast.success("Review submitted successfully!");
+      if (formData.rating === 0) {
+        toast.error("Minimum rating is 1");
+        return;
+      }
+      const chk = formData.content
+      const res = await axios.post("/api/classify", { text: chk as string });
+      const npn = await res.data.label;
+      if (npn != "nonsense") {
+        const data = {
+          ...formData,
+          websiteId: website.id,
+          sentiment: npn,
+        };
+        console.log(data)
+        const response = await axios.post(`/api/review`, data);
+        toast.success(`Submitted a ${npn} review successfully!`);
+        setFormData({ content: "", rating: 0, reviewer: "", profession: "" });
+      } else {
+        setFormData({ content: "", rating: 0, reviewer: "", profession: "" });
+        toast.error("Write something meaningful");
+      }
     } catch (err) {
-        console.error(err);
-        toast.error("Failed to submit the review. Please try again.");
+      console.error(err);
+      toast.error("Failed to submit the review. Please try again.");
     }
   };
 
@@ -116,7 +126,7 @@ export default function ReviewPage({
             htmlFor="reviewer"
             className="block text-sm font-medium text-muted-foreground"
           >
-            Your Name 
+            Your Name
             <span className="text-red-600 ml-1 font-semibold">*</span>
           </Label>
           <Input
@@ -135,7 +145,7 @@ export default function ReviewPage({
             htmlFor="profession"
             className="block text-sm font-medium text-muted-foreground"
           >
-            Your Profession 
+            Your Profession
             <span className="text-red-600 ml-1 font-semibold">*</span>
           </Label>
           <Input
@@ -154,7 +164,7 @@ export default function ReviewPage({
             htmlFor="content"
             className="block text-sm font-medium text-muted-foreground"
           >
-            Review Content 
+            Review Content
             <span className="text-red-600 ml-1 font-semibold">*</span>
           </Label>
           <Textarea
@@ -172,7 +182,7 @@ export default function ReviewPage({
             htmlFor="rating"
             className="block text-sm mb-2 font-medium text-muted-foreground"
           >
-            Rating (1-5) 
+            Rating (1-5)
             <span className="text-red-600 ml-1 font-semibold">*</span>
           </Label>
           <div className="flex mt-1">
@@ -191,7 +201,10 @@ export default function ReviewPage({
                       size={24}
                     />
                   ) : (
-                    <Star className="dark:text-gray-300 text-gray-500 mx-1" size={24} />
+                    <Star
+                      className="dark:text-gray-300 text-gray-500 mx-1"
+                      size={24}
+                    />
                   )}
                 </div>
               );
