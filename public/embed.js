@@ -31,7 +31,7 @@
   container.style.borderRadius = "12px";
   container.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
   container.style.color = colors.text;
-  document.body.appendChild(container);
+  script.insertAdjacentElement("afterend", container);
 
   container.innerHTML = `<p style="text-align:center;">Loading ReviewR reviews...</p>`;
 
