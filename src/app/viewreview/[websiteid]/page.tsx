@@ -53,6 +53,7 @@ export default function ViewReview({
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
   const [sentimentFilter, setSentimentFilter] = useState<string>("all");
+  const [embedSentiment, setEmbedSentiment] = useState<string>("all");
   const [website, setWebsite] = useState<websitesProps>({
     id: "",
     url: "",
@@ -117,6 +118,7 @@ export default function ViewReview({
     data-theme=${theme}
     data-min-rating=${minrat} 
     data-total-rev=${tot}
+    data-sentiment=${embedSentiment}
     async>
   </script>`);
 
@@ -127,10 +129,11 @@ export default function ViewReview({
         data-theme="${theme}" 
         data-min-rating="${minrat}" 
         data-total-rev="${tot}"
+        data-sentiment="${embedSentiment}"
         async>
       </script>
     `);
-  }, [theme, minrat, tot]);
+  }, [theme, minrat, tot, embedSentiment]);
 
   const copyLink = (link: string): void => {
     if (!navigator.clipboard) {
@@ -156,7 +159,7 @@ export default function ViewReview({
           User Reviews for {website.name}
         </h1>
         <Button onClick={() => setOpen(true)} variant={"default"}>
-          <Menu />
+          <Menu /> Widget
         </Button>
       </div>
       <Command>
@@ -211,7 +214,20 @@ export default function ViewReview({
               </Select>
             </div>
 
-            <Button onClick={() => copyLink(emblink)}>Copy Script</Button>
+            <div className="mb-4">
+              <Select value={embedSentiment} onValueChange={setEmbedSentiment}>
+                <SelectTrigger>
+                  <span>Sentiment: {embedSentiment}</span>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="positive">Positive</SelectItem>
+                  <SelectItem value="negative">Negative</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <Button onClick={() => copyLink(emblink)}>Copy HTML Script</Button>
           </DialogContent>
         </CommandDialog>
       </Command>
@@ -281,6 +297,7 @@ export default function ViewReview({
               <SelectValue placeholder="Select sentiment" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="all">All</SelectItem>
               <SelectItem value="positive">Positive</SelectItem>
               <SelectItem value="negative">Negative</SelectItem>
             </SelectContent>
