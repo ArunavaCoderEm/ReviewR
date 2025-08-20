@@ -112,6 +112,46 @@ export default function ViewReview({
   const [minrat, setMinrat] = useState<string>("0");
   const [theme, setTheme] = useState<string>("light");
 
+  const [remblink, setremblink] = useState<string>(`
+    
+    import React, { useEffect } from "react";
+
+    export default function App() {
+      return (
+        <div>
+          <ReviewEmbed 
+            websiteid={"${websiteid}"} 
+            theme={"${theme}"} 
+            minrat={"${minrat}"} 
+            tot={"${tot}"} 
+            embedSentiment={"${embedSentiment}"} 
+          />
+        </div>
+      );
+    }
+
+    export function ReviewEmbed({ websiteid, theme, minrat, tot, embedSentiment }) {
+      useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://review-r.godutta.tech/embed.js";
+        script.async = true;
+        script.setAttribute("data-website-id", websiteid);
+        script.setAttribute("data-theme", theme);
+        script.setAttribute("data-min-rating", minrat);
+        script.setAttribute("data-total-rev", tot);
+        script.setAttribute("data-sentiment", embedSentiment);
+
+        document.body.appendChild(script);
+
+        return () => {
+          document.body.removeChild(script);
+        };
+      }, [websiteid, theme, minrat, tot, embedSentiment]);
+
+      return null;
+    }
+    `);
+
   const [emblink, setEmblink] =
     useState<string>(`<script src="https://review-r.godutta.tech/embed.js" 
     data-website-id=${websiteid} 
@@ -133,6 +173,44 @@ export default function ViewReview({
         async>
       </script>
     `);
+    setremblink(`
+        import React, { useEffect } from "react";
+
+    export default function App() {
+      return (
+        <div>
+          <ReviewEmbed 
+            websiteid={"${websiteid}"} 
+            theme={"${theme}"} 
+            minrat={"${minrat}"} 
+            tot={"${tot}"} 
+            embedSentiment={"${embedSentiment}"} 
+          />
+        </div>
+      );
+    }
+
+    export function ReviewEmbed({ websiteid, theme, minrat, tot, embedSentiment }) {
+      useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://review-r.godutta.tech/embed.js";
+        script.async = true;
+        script.setAttribute("data-website-id", websiteid);
+        script.setAttribute("data-theme", theme);
+        script.setAttribute("data-min-rating", minrat);
+        script.setAttribute("data-total-rev", tot);
+        script.setAttribute("data-sentiment", embedSentiment);
+
+        document.body.appendChild(script);
+
+        return () => {
+          document.body.removeChild(script);
+        };
+      }, [websiteid, theme, minrat, tot, embedSentiment]);
+
+      return null;
+    }
+      `);
   }, [theme, minrat, tot, embedSentiment]);
 
   const copyLink = (link: string): void => {
@@ -141,6 +219,22 @@ export default function ViewReview({
       return;
     }
 
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        toast.success(`Script copied to clipboard`);
+      })
+      .catch((error) => {
+        toast.error("Failed to copy link");
+        alert("Failed to copy the script. Please try again.");
+      });
+  };
+
+  const copyLinkReact = (link: string): void => {
+    if (!navigator.clipboard) {
+      toast.error("Clipboard API not supported in this browser.");
+      return;
+    }
     navigator.clipboard
       .writeText(link)
       .then(() => {
@@ -228,6 +322,9 @@ export default function ViewReview({
             </div>
 
             <Button onClick={() => copyLink(emblink)}>Copy HTML Script</Button>
+            <Button onClick={() => copyLinkReact(remblink)}>
+              Copy React/Next Component
+            </Button>
           </DialogContent>
         </CommandDialog>
       </Command>
