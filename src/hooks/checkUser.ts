@@ -4,7 +4,6 @@ import { prismaDb } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 
 export async function checkUserNeon() {
-    console.log("Hello")
     const user = await currentUser();
     if (user?.id) {
         try {
